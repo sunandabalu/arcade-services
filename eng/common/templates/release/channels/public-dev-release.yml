@@ -14,6 +14,8 @@ stages:
     displayName: Symbol Publishing
     dependsOn: setupMaestroVars
     condition: contains(dependencies.setupMaestroVars.outputs['setReleaseVars.InitialChannels'], variables.PublicDevRelease_30_Channel_Id)
+    variables:
+      - group: DotNet-Symbol-Server-Pats
     pool:
       vmImage: 'windows-2019'
     steps:
