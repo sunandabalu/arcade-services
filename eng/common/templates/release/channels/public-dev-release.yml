@@ -47,7 +47,10 @@ stages:
     displayName: Publish to Static Feed
     dependsOn: setupMaestroVars
     variables:
-      BARBuildId: $[ dependencies.setupMaestroVars.outputs['setReleaseVars.BARBuildId'] ]
+      - group: DotNet-Blob-Feed
+      - group: Publish-Build-Assets
+      - name: BARBuildId
+        value: $[ dependencies.setupMaestroVars.outputs['setReleaseVars.BARBuildId'] ]
     condition: contains(dependencies.setupMaestroVars.outputs['setReleaseVars.InitialChannels'], variables.PublicDevRelease_30_Channel_Id)
     pool:
       vmImage: 'windows-2019'
