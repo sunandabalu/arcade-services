@@ -97,11 +97,12 @@ $ValidatePackage = {
                           $Status = (Invoke-WebRequest -UseBasicParsing -Uri $Link -UseBasicParsing -Method HEAD -TimeoutSec 5).StatusCode
                         }
                         else {
-                          $Status = 0
+                          $Status = 600
                         }
                       }
                       catch {
-                        $Status = 0
+                        write-host $_
+                        $Status = 800
                       }
                     }
 
@@ -114,7 +115,7 @@ $ValidatePackage = {
                         Write-Host "`tFile $RealPath has broken links:"
                       }
 
-                      Write-Host "`t`tFailed to retrieve $Link"
+                      Write-Host "`t`tFailed to retrieve $Link $Status"
 
                       $NumFailedLinks++
                     }
