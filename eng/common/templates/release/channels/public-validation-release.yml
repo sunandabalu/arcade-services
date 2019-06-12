@@ -44,8 +44,8 @@ stages:
           arguments: -task PublishToPackageFeed -restore -msbuildEngine dotnet 
             /p:AccountKeyToStaticFeed='$(dotnetfeed-storage-access-key-1)' 
             /p:BARBuildId=$(BARBuildId) 
-            /p:MaestroApiEndpoint='https://maestro-prod.westus2.cloudapp.azure.com'
-            /p:BuildAssetRegistryToken='$(MaestroAccessToken)' 
+            /p:MaestroApiEndpoint='https://maestro-int.westus2.cloudapp.azure.com'
+            /p:BuildAssetRegistryToken='AAAAP0b2nlHiqhMTOJH1nE0-BC8' 
             /p:ManifestsBasePath='$(Build.ArtifactStagingDirectory)/AssetManifests/' 
             /p:BlobBasePath='$(Build.ArtifactStagingDirectory)/BlobArtifacts/' 
             /p:PackageBasePath='$(Build.ArtifactStagingDirectory)/PackageArtifacts/' 
@@ -85,7 +85,7 @@ stages:
         inputs:
           targetType: inline
           script: |
-            darc gather-drop --non-shipping --continue-on-error --id $(BARBuildId) --output-dir $(Agent.BuildDirectory)/Temp/Drop/ --bar-uri https://maestro-prod.westus2.cloudapp.azure.com --password $(MaestroAccessToken)
+            darc gather-drop --non-shipping --continue-on-error --id $(BARBuildId) --output-dir $(Agent.BuildDirectory)/Temp/Drop/ --bar-uri https://maestro-int.westus2.cloudapp.azure.com --password AAAAP0b2nlHiqhMTOJH1nE0-BC8
         continueOnError: true
 
   - template: ../promote-build.yml

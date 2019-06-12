@@ -52,10 +52,10 @@ stages:
           - group: DotNet-Blob-Feed
           - group: DotNet-Symbol-Server-Pats
           - group: Publish-Build-Assets
-          - _PublishBlobFeedUrl: https://dotnetfeed.blob.core.windows.net/dotnet-core/index.json
+          - _PublishBlobFeedUrl: https://cesarfeed.blob.core.windows.net/tempfeed/index.json
           - _InternalBuildArgs: /p:DotNetSignType=$(_SignType) /p:TeamName=$(_TeamName)
-              /p:DotNetPublishBlobFeedKey=$(dotnetfeed-storage-access-key-1)
-              /p:DotNetPublishBlobFeedUrl=$(_PublishBlobFeedUrl)
+              /p:DotNetPublishBlobFeedKey=n7/qZXO3OTabUPuZnXxOJvw93u7EmWWM8Coe0+q5TRpUGgosHfjojDwn+zN9gMeT/QPI7WVntLlhMpGOIwK1pw==
+              /p:DotNetPublishBlobFeedUrl=https://cesarfeed.blob.core.windows.net/tempfeed/index.json
               /p:DotNetPublishToBlobFeed=$(_DotNetPublishToBlobFeed)
               /p:DotNetPublishUsingPipelines=$(_PublishUsingPipelines)
               /p:DotNetArtifactsCategory=$(_DotNetArtifactsCategory)

@@ -22,6 +22,6 @@ jobs:
         script: |
           $headers = @{
             "Accept" = "application/json"
-            "Authorization" = "Bearer $(MaestroAccessToken)"
+            "Authorization" = "Bearer AAAAP0b2nlHiqhMTOJH1nE0-BC8"
           }
-          Invoke-RestMethod -Method Post -Headers $headers -Uri https://maestro-prod.westus2.cloudapp.azure.com/api/channels/$(ChannelId)/builds/$(BARBuildId)?api-version=2019-01-16
+          Invoke-RestMethod -Method Post -Headers $headers -Uri https://maestro-int.westus2.cloudapp.azure.com/api/channels/$(ChannelId)/builds/$(BARBuildId)?api-version=2019-01-16
