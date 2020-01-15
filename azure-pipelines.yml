@@ -244,6 +244,21 @@ stages:
         -TsaCodebaseName "Arcade-Services"
         -TsaPublish $True'
 
+
+- stage: Pre_Deploy_Tests
+  jobs:
+  - job: Validate_Existing_Services
+    pool:
+      name: Hosted VS2017
+    steps:
+    - download: Deploy_Staging
+      artifact: ValidationScripts
+    - task: ServiceFabricPowerShell@1
+      displayName: 'Validate Service Fabric Applications'
+      inputs:
+        clusterConnection: Maestro-Int
+        scriptPath: '$(Pipeline.Workspace)/Scripts/Validation/Test-PreDeployCheckServiceFabric.ps1'
+
 - ${{ if and(ne(variables['System.TeamProject'], 'public'), notin(variables['Build.Reason'], 'PullRequest')) }}:
   - ${{ if eq(variables['Build.SourceBranch'], 'refs/heads/master') }}:
     - template: eng\deploy.yaml
