@@ -43,6 +43,8 @@ namespace Maestro.Web.Api.v2020_02_20.Models
 
         public bool Released { get; set; }
 
+        public bool Stable { get; set; }
+
         public Data.Models.Build ToDb()
         {
             return new Data.Models.Build
@@ -58,7 +60,8 @@ namespace Maestro.Web.Api.v2020_02_20.Models
                 AzureDevOpsBranch = AzureDevOpsBranch,
                 Commit = Commit,
                 Assets = Assets?.Select(a => a.ToDb()).ToList(),
-                Released = Released
+                Released = Released,
+                Stable = Stable
             };
         }
     }

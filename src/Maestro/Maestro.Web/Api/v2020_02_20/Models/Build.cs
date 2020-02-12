@@ -38,6 +38,7 @@ namespace Maestro.Web.Api.v2020_02_20.Models
             Dependencies = other.DependentBuildIds?.Select(d => new BuildRef(d.DependentBuildId, d.IsProduct, d.TimeToInclusionInMinutes)).ToList();
             Staleness = other.Staleness;
             Released = other.Released;
+            Stable = other.Stable;
         }
 
         public int Id { get; }
@@ -73,5 +74,7 @@ namespace Maestro.Web.Api.v2020_02_20.Models
         public int Staleness { get; }
 
         public bool Released { get; }
+
+        public bool Stable { get; }
     }
 }
