@@ -17,7 +17,7 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using Build = Maestro.Data.Models.Build;
-using Channel = Maestro.Web.Api.v2018_07_16.Models.Channel;
+using Channel = Maestro.Web.Api.v2020_02_20.Models.Channel;
 using FlowGraph = Maestro.Web.Api.v2018_07_16.Models.FlowGraph;
 
 namespace Maestro.Web.Api.v2020_02_20.Controllers
