@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using Maestro.Contracts;
+using NuGet.Versioning;
 using System.Threading.Tasks;
 
 namespace Maestro.MergePolicies
@@ -11,11 +12,11 @@ namespace Maestro.MergePolicies
     {
         public override string DisplayName => "Do not automerge downgrades";
 
-        internal static async Task EvaluateDowngradesAsync(IMergePolicyEvaluationContext context)
+        internal static Task EvaluateDowngradesAsync(IMergePolicyEvaluationContext context)
         {
             IPullRequest pr = context.PullRequest;
 
-            if (await HasAnyDowngradeAsync(pr))
+            if (HasAnyDowngradeAsync(pr))
             {
                 context.Fail("There are reviews that have requested changes.");
             }
@@ -23,6 +24,8 @@ namespace Maestro.MergePolicies
             {
                 context.Succeed("No reviews have requested changes.");
             }
+
+            return Task.CompletedTask;
         }
 
         public override async Task EvaluateAsync(IMergePolicyEvaluationContext context, MergePolicyProperties properties)
@@ -30,9 +33,23 @@ namespace Maestro.MergePolicies
             await EvaluateDowngradesAsync(context);
         }
 
-        private static async Task<bool> HasAnyDowngradeAsync(IPullRequest pr)
+        private static bool HasAnyDowngradeAsync(IPullRequest pr)
         {
-            return await Task.FromResult<bool>(true);
+            foreach (var (update, deps) in pr.RequiredUpdates)
+            {
+                foreach (var dependency in deps)
+                {
+                    SemanticVersion.TryParse(dependency.From.Version, out var left);
+                    SemanticVersion.TryParse(dependency.To.Version, out var right);
+
+                    if (left.CompareTo(right) < 0)
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
         }
     }
 }

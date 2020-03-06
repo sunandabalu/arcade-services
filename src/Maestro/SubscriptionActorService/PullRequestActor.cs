@@ -932,7 +932,7 @@ This pull request {(merged ? "has been merged" : "will be merged")} because the 
             (string targetRepository, string targetBranch) = await GetTargetAsync();
             IRemote darcRemote = await DarcRemoteFactory.GetRemoteAsync(targetRepository, Logger);
 
-            List<(UpdateAssetsParameters update, List<DependencyDetail> deps)> requiredUpdates =
+            List<(UpdateAssetsParameters update, List<DependencyUpdate> deps)> requiredUpdates =
                 await GetRequiredUpdates(updates, DarcRemoteFactory, targetRepository, targetBranch);
 
             if (requiredUpdates.Count < 1)
@@ -949,7 +949,7 @@ This pull request {(merged ? "has been merged" : "will be merged")} because the 
             // Replace all existing updates for the subscription id with the new update.
             // This avoids a potential issue where we may update the last applied build id
             // on the subscription to an older build id.
-            foreach ((UpdateAssetsParameters update, List<DependencyDetail> deps) update in requiredUpdates)
+            foreach ((UpdateAssetsParameters update, List<DependencyUpdate> deps) update in requiredUpdates)
             {
                 pr.ContainedSubscriptions.RemoveAll(s => s.SubscriptionId == update.update.SubscriptionId);
             }
