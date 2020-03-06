@@ -18,11 +18,11 @@ namespace Maestro.MergePolicies
 
             if (HasAnyDowngradeAsync(pr))
             {
-                context.Fail("There are reviews that have requested changes.");
+                context.Fail("Some dependency updates are downgrades. Aborting auto-merge.");
             }
             else
             {
-                context.Succeed("No reviews have requested changes.");
+                context.Succeed("No version downgrade detected.");
             }
 
             return Task.CompletedTask;
