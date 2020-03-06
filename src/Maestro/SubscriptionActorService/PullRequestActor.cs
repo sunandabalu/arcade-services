@@ -357,7 +357,7 @@ namespace SubscriptionActorService
                 // If the PR is currently open, then evaluate the merge policies, which will potentially
                 // merge the PR if they are successul.
                 case PrStatus.Open:
-                    ActionResult<MergePolicyCheckResult> checkPolicyResult = await CheckMergePolicyAsync(prUrl, darc);
+                    ActionResult<MergePolicyCheckResult> checkPolicyResult = await CheckMergePolicyAsync(pr, darc);
                     pr.MergePolicyResult = checkPolicyResult.Result;
 
                     switch (checkPolicyResult.Result)
@@ -412,11 +412,11 @@ namespace SubscriptionActorService
         /// <param name="prUrl">Pull request URL</param>
         /// <param name="darc">Darc remote</param>
         /// <returns>Result of the policy check.</returns>
-        private async Task<ActionResult<MergePolicyCheckResult>> CheckMergePolicyAsync(string prUrl, IRemote darc)
+        private async Task<ActionResult<MergePolicyCheckResult>> CheckMergePolicyAsync(IPullRequest pr, IRemote darc)
         {
             IReadOnlyList<MergePolicyDefinition> policyDefinitions = await GetMergePolicyDefinitions();
             MergePolicyEvaluationResult result = await MergePolicyEvaluator.EvaluateAsync(
-                prUrl,
+                pr,
                 darc,
                 policyDefinitions);
 
@@ -424,7 +424,7 @@ namespace SubscriptionActorService
             {
                 await UpdateStatusCommentAsync(
                     darc,
-                    prUrl,
+                    pr.Url,
                     $@"## Auto-Merge Status
 This pull request has not been merged because Maestro++ is waiting on the following merge policies.
 
@@ -432,7 +432,7 @@ This pull request has not been merged because Maestro++ is waiting on the follow
 
                 return ActionResult.Create(
                     result.Pending ? MergePolicyCheckResult.PendingPolicies : MergePolicyCheckResult.FailedPolicies,
-                    $"NOT Merged: PR '{prUrl}' failed policies {string.Join(", ", result.Results.Where(r => r.Success == null || r.Success == false).Select(r => r.Policy?.Name + r.Message))}");
+                    $"NOT Merged: PR '{pr.Url}' failed policies {string.Join(", ", result.Results.Where(r => r.Success == null || r.Success == false).Select(r => r.Policy?.Name + r.Message))}");
             }
 
             if (result.Succeeded)
@@ -440,7 +440,7 @@ This pull request has not been merged because Maestro++ is waiting on the follow
                 var merged = false;
                 try
                 {
-                    await darc.MergePullRequestAsync(prUrl, new MergePullRequestParameters());
+                    await darc.MergePullRequestAsync(pr.Url, new MergePullRequestParameters());
                     merged = true;
                 }
                 catch
@@ -450,7 +450,7 @@ This pull request has not been merged because Maestro++ is waiting on the follow
 
                 await UpdateStatusCommentAsync(
                     darc,
-                    prUrl,
+                    pr.Url,
                     $@"## Auto-Merge Status
 This pull request {(merged ? "has been merged" : "will be merged")} because the following merge policies have succeeded.
 
@@ -460,10 +460,10 @@ This pull request {(merged ? "has been merged" : "will be merged")} because the 
                 {
                     return ActionResult.Create(
                         MergePolicyCheckResult.Merged,
-                        $"Merged: PR '{prUrl}' passed policies {string.Join(", ", policyDefinitions.Select(p => p.Name))}");
+                        $"Merged: PR '{pr.Url}' passed policies {string.Join(", ", policyDefinitions.Select(p => p.Name))}");
                 }
 
-                return ActionResult.Create(MergePolicyCheckResult.FailedToMerge, $"NOT Merged: PR '{prUrl}' has merge conflicts.");
+                return ActionResult.Create(MergePolicyCheckResult.FailedToMerge, $"NOT Merged: PR '{pr.Url}' has merge conflicts.");
             }
 
             return ActionResult.Create(MergePolicyCheckResult.NoPolicies, "NOT Merged: There are no merge policies");

@@ -10,7 +10,7 @@ using Maestro.Contracts;
 namespace SubscriptionActorService
 {
     [DataContract]
-    public class InProgressPullRequest
+    public class InProgressPullRequest : IPullRequest
     {
         [DataMember]
         public string Url { get; set; }

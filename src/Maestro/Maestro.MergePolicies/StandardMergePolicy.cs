@@ -35,7 +35,7 @@ namespace Maestro.MergePolicies
         public override async Task EvaluateAsync(IMergePolicyEvaluationContext context, MergePolicyProperties properties)
         {
             HashSet<string> ignoredChecks = null;
-            string prUrl = context.PullRequestUrl;
+            string prUrl = context.PullRequest.Url;
             if (prUrl.Contains("github.com"))
             {
                 ignoredChecks = standardGithubIgnoredChecks;
