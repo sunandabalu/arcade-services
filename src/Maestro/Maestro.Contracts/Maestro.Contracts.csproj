@@ -12,4 +12,8 @@
     <PackageReference Include="System.ValueTuple" Version="4.5.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\Microsoft.DotNet.Darc\src\DarcLib\Microsoft.DotNet.DarcLib.csproj" />
+  </ItemGroup>
+
 </Project>

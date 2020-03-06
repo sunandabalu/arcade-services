@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using Maestro.Contracts;
+using Microsoft.DotNet.DarcLib;
 
 namespace SubscriptionActorService
 {
@@ -23,6 +24,9 @@ namespace SubscriptionActorService
 
         [DataMember]
         public List<SubscriptionPullRequestUpdate> Contained { get; set; }
+
+        [DataMember]
+        public List<(PullRequestActorImplementation.UpdateAssetsParameters update, List<DependencyUpdate> deps)> RequiredUpdates { get; set; }
     }
 
     [DataContract]
