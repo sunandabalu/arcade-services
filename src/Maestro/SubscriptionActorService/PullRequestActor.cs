@@ -697,6 +697,14 @@ This pull request {(merged ? "has been merged" : "will be merged")} because the 
                         .ToList(),
 
                     RequiredUpdates = requiredUpdates
+                            .SelectMany(update => update.deps)
+                            .Select(du => new DependencyUpdateSummary
+                            {
+                                DependencyName = du.To.Name,
+                                FromVersion = du.From.Version,
+                                ToVersion = du.To.Version
+                            })
+                            .ToList()
                 };
 
                 string prUrl = await darcRemote.CreatePullRequestAsync(

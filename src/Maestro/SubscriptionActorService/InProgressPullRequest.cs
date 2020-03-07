@@ -26,7 +26,7 @@ namespace SubscriptionActorService
         public List<SubscriptionPullRequestUpdate> Contained { get; set; }
 
         [DataMember]
-        public List<(UpdateAssetsParameters update, List<DependencyUpdate> deps)> RequiredUpdates { get; set; }
+        public List<DependencyUpdateSummary> RequiredUpdates { get; set; }
     }
 
     [DataContract]

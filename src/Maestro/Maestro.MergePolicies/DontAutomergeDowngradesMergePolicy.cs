@@ -35,17 +35,14 @@ namespace Maestro.MergePolicies
 
         private static bool HasAnyDowngradeAsync(IPullRequest pr)
         {
-            foreach (var (update, deps) in pr.RequiredUpdates)
+            foreach (var dependency in pr.RequiredUpdates)
             {
-                foreach (var dependency in deps)
-                {
-                    SemanticVersion.TryParse(dependency.From.Version, out var left);
-                    SemanticVersion.TryParse(dependency.To.Version, out var right);
+                SemanticVersion.TryParse(dependency.FromVersion, out var fromVersion);
+                SemanticVersion.TryParse(dependency.ToVersion, out var toVersion);
 
-                    if (left.CompareTo(right) < 0)
-                    {
-                        return true;
-                    }
+                if (fromVersion.CompareTo(toVersion) > 0)
+                {
+                    return true;
                 }
             }
 

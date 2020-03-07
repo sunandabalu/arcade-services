@@ -11,6 +11,6 @@ namespace Maestro.Contracts
     {
         string Url { get; set; }
 
-        List<(UpdateAssetsParameters update, List<DependencyUpdate> deps)> RequiredUpdates { get; set; }
+        List<DependencyUpdateSummary> RequiredUpdates { get; set; }
     }
 }
