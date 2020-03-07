@@ -12,11 +12,15 @@ namespace Maestro.MergePolicies
     {
         public override string DisplayName => "Do not automerge downgrades";
 
-        internal static Task EvaluateDowngradesAsync(IMergePolicyEvaluationContext context)
+        public override async Task EvaluateAsync(IMergePolicyEvaluationContext context, MergePolicyProperties properties)
         {
-            IPullRequest pr = context.PullRequest;
+            EvaluateDowngrades(context);
+            await Task.CompletedTask;
+        }
 
-            if (HasAnyDowngradeAsync(pr))
+        internal static void EvaluateDowngrades(IMergePolicyEvaluationContext context)
+        {
+            if (HasAnyDowngrade(context.PullRequest))
             {
                 context.Fail("Some dependency updates are downgrades. Aborting auto-merge.");
             }
@@ -24,16 +28,9 @@ namespace Maestro.MergePolicies
             {
                 context.Succeed("No version downgrade detected.");
             }
-
-            return Task.CompletedTask;
         }
 
-        public override async Task EvaluateAsync(IMergePolicyEvaluationContext context, MergePolicyProperties properties)
-        {
-            await EvaluateDowngradesAsync(context);
-        }
-
-        private static bool HasAnyDowngradeAsync(IPullRequest pr)
+        private static bool HasAnyDowngrade(IPullRequest pr)
         {
             foreach (var dependency in pr.RequiredUpdates)
             {
