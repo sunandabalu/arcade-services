@@ -11,7 +11,7 @@ namespace SubscriptionActorService
 {
     public class MergePolicyEvaluationContext : IMergePolicyEvaluationContext
     {
-        public MergePolicyEvaluationContext(IRemote darc, IPullRequest pr)
+        public MergePolicyEvaluationContext(IPullRequest pr, IRemote darc)
         {
             Darc = darc;
             PullRequest = pr;

@@ -29,7 +29,7 @@ namespace SubscriptionActorService
             IRemote darc,
             IReadOnlyList<MergePolicyDefinition> policyDefinitions)
         {
-            var context = new MergePolicyEvaluationContext(darc, pr);
+            var context = new MergePolicyEvaluationContext(pr, darc);
             foreach (MergePolicyDefinition definition in policyDefinitions)
             {
                 if (MergePolicies.TryGetValue(definition.Name, out MergePolicy policy))
