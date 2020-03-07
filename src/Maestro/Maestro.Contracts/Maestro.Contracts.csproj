@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFrameworks>$(NetFxTfm);netcoreapp2.1</TargetFrameworks>
@@ -10,10 +10,6 @@
     <PackageReference Include="Microsoft.ServiceFabric.Actors" Version="3.3.664" />
     <PackageReference Include="Microsoft.ServiceFabric.Services.Remoting" Version="3.3.664" />
     <PackageReference Include="System.ValueTuple" Version="4.5.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\Microsoft.DotNet.Darc\src\DarcLib\Microsoft.DotNet.DarcLib.csproj" />
   </ItemGroup>
 
 </Project>
