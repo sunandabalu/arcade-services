@@ -330,9 +330,9 @@ namespace SubscriptionActorService.Tests
         {
             ExpectedActorState.Add(
                 PullRequestActorImplementation.PullRequestUpdate,
-                new List<UpdateAssetsParameters>
+                new List<PullRequestActorImplementation.UpdateAssetsParameters>
                 {
-                    new UpdateAssetsParameters
+                    new PullRequestActorImplementation.UpdateAssetsParameters
                     {
                         SubscriptionId = Subscription.Id,
                         BuildId = forBuild.Id,
@@ -391,7 +391,7 @@ namespace SubscriptionActorService.Tests
 
             private void AndNoPendingUpdates()
             {
-                var updates = new List<UpdateAssetsParameters>();
+                var updates = new List<PullRequestActorImplementation.UpdateAssetsParameters>();
                 StateManager.Data[PullRequestActorImplementation.PullRequestUpdate] = updates;
                 ExpectedActorState[PullRequestActorImplementation.PullRequestUpdate] = updates;
             }
@@ -401,9 +401,9 @@ namespace SubscriptionActorService.Tests
                 AfterDbUpdateActions.Add(
                     () =>
                     {
-                        var updates = new List<UpdateAssetsParameters>
+                        var updates = new List<PullRequestActorImplementation.UpdateAssetsParameters>
                         {
-                            new UpdateAssetsParameters
+                            new PullRequestActorImplementation.UpdateAssetsParameters
                             {
                                 SubscriptionId = Subscription.Id,
                                 BuildId = forBuild.Id,
